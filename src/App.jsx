@@ -79,7 +79,8 @@ function buildExportText(data) {
   data.forEach((day, i) => {
     const done = Object.values(day.checks).filter(Boolean).length;
     const total = Object.values(day.checks).length;
-    lines.push(`--- ${FULL_DAYS[i]} (${done}/${total} erledigt) ---`);
+    const datePart = day.date ? " · " + new Date(day.date).toLocaleDateString("de-DE") : "";
+    lines.push(`--- ${FULL_DAYS[i]}${datePart} (${done}/${total} erledigt) ---`);
     SECTIONS.forEach(sec => {
       sec.items.forEach(item => lines.push(`  [${day.checks[item.id] ? "x" : " "}] ${item.text}`));
       (sec.inputs || []).forEach(inp => { if (day.inputs[inp.id]) lines.push(`  ${inp.label}: ${day.inputs[inp.id]} ${inp.unit}`); });
