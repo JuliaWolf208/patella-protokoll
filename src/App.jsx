@@ -397,18 +397,12 @@ export default function App() {
   const handleImport = () => {
     const result = parseImport(importText);
     if (result) {
-      setConfirmModal({
-        message: "Alle gespeicherten Daten werden überschrieben. Fortfahren?",
-        onConfirm: () => {
-          setData(result);
-          const idx = result.weeks.findIndex(w => w.weekStart === getMonday());
-          setActiveWeekIndex(idx >= 0 ? idx : result.weeks.length - 1);
-          setShowImport(false);
-          setImportText("");
-          setImportMsg("");
-        },
-        confirmLabel: "Überschreiben",
-      });
+      setData(result);
+      const idx = result.weeks.findIndex(w => w.weekStart === getMonday());
+      setActiveWeekIndex(idx >= 0 ? idx : result.weeks.length - 1);
+      setShowImport(false);
+      setImportText("");
+      setImportMsg("");
     } else {
       setImportMsg("⚠ Ungültiges Format – kompletten Export-Text einfügen.");
     }
