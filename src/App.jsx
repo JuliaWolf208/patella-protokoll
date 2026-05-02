@@ -63,18 +63,25 @@ function emptyDay() {
   return { checks, inputs, notes: "", date: "" };
 }
 
+function localDateStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 function getMonday(dateStr) {
   const d = dateStr ? new Date(dateStr + "T00:00:00") : new Date();
   const day = d.getDay();
   d.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
-  return d.toISOString().split("T")[0];
+  return localDateStr(d);
 }
 
 function weekDates(mondayStr) {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(mondayStr + "T00:00:00");
     d.setDate(d.getDate() + i);
-    return d.toISOString().split("T")[0];
+    return localDateStr(d);
   });
 }
 
@@ -102,7 +109,7 @@ function formatWeekRange(mondayStr) {
 }
 
 function todayStr() {
-  return new Date().toISOString().split("T")[0];
+  return localDateStr(new Date());
 }
 
 function todayIndex() {
