@@ -25,7 +25,7 @@ const SECTIONS = [
     ],
   },
   {
-    id: "huefte", label: "Hüftprogramm", emoji: "🦵",
+    id: "huefte", label: "Hüftprogramm (2× pro Woche)", emoji: "🦵",
     items: [
       { id: "huefte_supersatz", text: "Supersatz: 15 Clamshells + 15 Beinheben, 2 Durchgänge pro Seite" },
       { id: "huefte_hipthrust", text: "Hipthrusts an der Couch – 2× 12–15, Po 2 Sek. fest" },
@@ -79,10 +79,9 @@ function weekDates(mondayStr) {
 }
 
 function emptyWeek(mondayStr) {
-  const dates = weekDates(mondayStr);
   return {
     weekStart: mondayStr,
-    days: Array.from({ length: 7 }, (_, i) => ({ ...emptyDay(), date: dates[i] })),
+    days: Array.from({ length: 7 }, () => ({ ...emptyDay() })),
   };
 }
 
@@ -116,12 +115,7 @@ function ensureCurrentWeek(storageData) {
   if (idx === -1) {
     return { ...storageData, weeks: [...storageData.weeks, emptyWeek(monday)] };
   }
-  // Back-fill missing dates (migration from old format)
-  const dates = weekDates(monday);
-  const weeks = storageData.weeks.map((w, i) =>
-    i !== idx ? w : { ...w, days: w.days.map((d, di) => d.date ? d : { ...d, date: dates[di] }) }
-  );
-  return { ...storageData, weeks };
+  return storageData;
 }
 
 function loadFromStorage() {
@@ -393,17 +387,6 @@ export default function App() {
     confirmLabel: "Zurücksetzen",
   });
 
-  // ── Progress ──────────────────────────────────────────────────────────────
-
-  const prog = (wi, di) => {
-    const d = data.weeks[wi]?.days[di];
-    if (!d) return 0;
-    const total = SECTIONS.reduce((s, sec) => s + sec.items.length, 0);
-    const done  = SECTIONS.reduce((s, sec) => s + sec.items.filter(i => d.checks[i.id]).length, 0);
-    return total === 0 ? 0 : Math.round((done / total) * 100);
-  };
-  const pct = prog(activeWeekIndex, activeDay);
-
   // ── Export / Import ───────────────────────────────────────────────────────
 
   const handleCopy = () =>
@@ -530,16 +513,12 @@ export default function App() {
         {/* ── Day Picker ── */}
         <div style={S.dayPicker}>
           {DAYS.map((d, i) => {
-            const p   = prog(activeWeekIndex, i);
             const isA = i === activeDay;
-            const isT = activeWeek.days[i].date === today;
+            const isT = weekDates(activeWeek.weekStart)[i] === today;
             return (
               <button key={i} onClick={() => setActiveDay(i)} style={S.dayPill(isA)}>
                 {isT && <div style={S.todayDot} />}
                 <span style={{fontSize:10, letterSpacing:0.5}}>{d}</span>
-                <div style={S.ring(p, isA)}>
-                  <div style={S.ringInner(isA)} />
-                </div>
               </button>
             );
           })}
@@ -554,20 +533,6 @@ export default function App() {
             onChange={e => setDt(e.target.value)}
             style={S.dateInput}
           />
-        </div>
-
-        {/* ── Progress Card ── */}
-        <div style={S.progCard}>
-          <div style={S.progPct}>{pct}<span style={S.progUnit}>%</span></div>
-          <div style={S.progRight}>
-            <div style={S.progLabel}>Heute geschafft</div>
-            <div style={S.progBar}>
-              <div style={S.progFill(pct)} />
-            </div>
-            {pct === 100 && (
-              <div style={{fontSize:11, color:palette.sage, marginTop:6, letterSpacing:1}}>✓ Alles erledigt</div>
-            )}
-          </div>
         </div>
 
         {/* ── Sections ── */}
