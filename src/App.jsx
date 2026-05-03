@@ -18,9 +18,9 @@ const SECTIONS = [
   {
     id: "tag", label: "Über den Tag", emoji: "🔄",
     items: [
-      { id: "pendeln_1",       text: "Pendeln nach langem Sitzen (1. Mal)" },
-      { id: "pendeln_2",       text: "Pendeln nach langem Sitzen (2. Mal)" },
-      { id: "pendeln_3",       text: "Pendeln nach langem Sitzen (3. Mal)" },
+      { id: "pendeln_1",       text: "Pendeln (1. Mal)" },
+      { id: "pendeln_2",       text: "Pendeln (2. Mal)" },
+      { id: "pendeln_3",       text: "Pendeln (3. Mal)" },
       { id: "scheibenwischer", text: "Scheibenwischer – 3–5 Min. entspannt" },
     ],
   },
