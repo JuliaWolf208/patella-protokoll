@@ -1,0 +1,17 @@
+{
+  "name": "Knie-Protokoll",
+  "short_name": "Knie",
+  "description": "Tägliches Protokoll zur Kniereha",
+  "icons": [
+    {
+      "src": "app-icon-knie.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0e8dd",
+  "theme_color": "#3a3530"
+}
