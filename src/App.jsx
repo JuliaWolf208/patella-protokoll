@@ -22,7 +22,6 @@ const SECTIONS = [
       { id: "pendeln_2",       text: "Pendeln (2. Mal)" },
       { id: "pendeln_3",       text: "Pendeln (3. Mal)" },
       { id: "scheibenwischer", text: "Scheibenwischer – entspannt" },
-      { id: "hochlagern",      text: "Beine hochlagern" },
     ],
   },
   {
