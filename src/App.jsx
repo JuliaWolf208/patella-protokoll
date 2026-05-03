@@ -279,7 +279,7 @@ const S = {
     boxShadow: active ? `0 8px 20px rgba(124,148,124,0.3)` : "none",
     transition:"all 0.2s", position:"relative",
   }),
-  todayDot: { position:"absolute", top:5, right:5, width:5, height:5, borderRadius:"50%", background:palette.sage },
+  todayDot: (active) => ({ position:"absolute", top:5, right:5, width:5, height:5, borderRadius:"50%", background: active ? "#f0e8dd" : palette.sage }),
   ring: (pct, active) => ({
     width:20, height:20, borderRadius:"50%",
     background:`conic-gradient(${active ? "#f0e8dd" : palette.sage} ${pct*3.6}deg, rgba(0,0,0,0.1) ${pct*3.6}deg)`,
@@ -368,6 +368,12 @@ export default function App() {
     const t = setTimeout(() => setSavedFlash(false), 1200);
     return () => clearTimeout(t);
   }, [data]);
+
+  useEffect(() => {
+    if (!day.date) {
+      setDt(weekDates(activeWeek.weekStart)[activeDay]);
+    }
+  }, [activeDay, activeWeekIndex]);
 
   const activeWeek = data.weeks[activeWeekIndex];
   const day        = activeWeek.days[activeDay];
@@ -518,7 +524,7 @@ export default function App() {
             const isT = weekDates(activeWeek.weekStart)[i] === today;
             return (
               <button key={i} onClick={() => setActiveDay(i)} style={S.dayPill(isA)}>
-                {isT && <div style={S.todayDot} />}
+                {isT && <div style={S.todayDot(isA)} />}
                 <span style={{fontSize:10, letterSpacing:0.5}}>{d}</span>
               </button>
             );
