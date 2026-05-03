@@ -22,6 +22,7 @@ const SECTIONS = [
       { id: "pendeln_2",       text: "Pendeln (2. Mal)" },
       { id: "pendeln_3",       text: "Pendeln (3. Mal)" },
       { id: "scheibenwischer", text: "Scheibenwischer – 3–5 Min. entspannt" },
+      { id: "hochlagern",      text: "Beine hochlagern – 15–30 Min. über Herzhöhe" },
     ],
   },
   {
